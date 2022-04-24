@@ -46,7 +46,7 @@ class Solver:
                         if SudokuChecker(row, col, self.matrix, wanted_number).validate():
                             self.matrix[row][col] = wanted_number
                             if self.main():
-                                return False
+                                return True
                             self.matrix[row][col] = empty_symbol
                     return False
         return True
