@@ -32,37 +32,36 @@ class Sort(list):
         return self
 
     def merge_sort(self):
-        if len(self) > 1:
-            middle_index = len(self) // 2
-            left = self[:middle_index]
-            right = self[middle_index:]
+        if len(self) == 1:
+            return
+        middle_index = len(self) // 2
+        left_part = self[:middle_index]
+        right_part = self[middle_index:]
 
-            Sort.merge_sort(left)
-            Sort.merge_sort(right)
+        Sort.merge_sort(left_part)
+        Sort.merge_sort(right_part)
 
-            left_merge_index = 0
-            right_merge_index = 0
-            global_index = 0
+        left_index = 0
+        right_index = 0
+        global_index = 0
 
-            while left_merge_index < len(left) and right_merge_index < len(right):
-                if left[left_merge_index] <= right[right_merge_index]:
-                    self[global_index] = left[left_merge_index]
-                    left_merge_index += 1
-                else:
-                    self[global_index] = right[right_merge_index]
-                    right_merge_index += 1
-                global_index += 1
+        while left_index < len(left_part) and right_index < len(right_part):
+            if left_part[left_index] < right_part[right_index]:
+                self[global_index] = left_part[left_index]
+                left_index += 1
+            else:
+                self[global_index] = right_part[right_index]
+                right_index += 1
+            global_index += 1
 
-            while left_merge_index < len(left):
-                self[global_index] = left[left_merge_index]
-                left_merge_index += 1
-                global_index += 1
-
-            while right_merge_index < len(right):
-                self[global_index] = right[right_merge_index]
-                global_index += 1
-                right_merge_index += 1
-
+        while left_index < len(left_part):
+            self[global_index] = left_part[left_index]
+            left_index += 1
+            global_index += 1
+        while right_index < len(right_part):
+            self[global_index] = right_part[right_index]
+            global_index += 1
+            right_index += 1
         return self
 
     def quick_sort(self, pointer):
@@ -72,5 +71,7 @@ class Sort(list):
         self[first_index], self[second_index] = self[second_index], self[first_index]
 
 
-ls = Sort([12, 1, 33, 5, -12, 22, 654364, 12, 13, -1,124421,-421421])
-print(ls.bubble_sort())
+ls = Sort([12, 1, 33, 5, -12, 22, 654364, 12, 13, -1, 124421, -421421])
+print(ls.merge_sort())
+
+
