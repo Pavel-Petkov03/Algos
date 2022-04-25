@@ -53,7 +53,6 @@ class Sort(list):
                     right_merge_index += 1
                 global_index += 1
 
-
             while left_merge_index < len(left):
                 self[global_index] = left[left_merge_index]
                 left_merge_index += 1

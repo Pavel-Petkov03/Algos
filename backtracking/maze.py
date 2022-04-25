@@ -10,25 +10,35 @@ class Solve:
         e means exit
     """
 
-    def __init__(self, matrix):
-        self.matrix = matrix
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.matrix = self.initial_matrix()
+        self.dir_tracer = []
 
-    def main(self, row=0, col=0):
+    def initial_matrix(self):
+        ls = []
+        for row in range(self.row):
+            ls.append([])
+            line = input()
+            for col in line:
+                ls[row].append(col)
+        return ls
 
-        if not (0 <= row < len(self.matrix) and 0 <= col < len(self.matrix[row])):
+    def main(self, row=0, col=0, direction="L"):
+        if not (0 <= row < self.row and 0 <= col < self.col):
             return
+        self.dir_tracer.append(direction)
         if self.is_exit(row, col):
-            print("Path found")
-            print()
-            self.print_solution()
-            print()
+            print("".join(self.dir_tracer[1:]))
         elif self.is_not_visited(row, col) and self.is_passable(row, col):
             self.mark(row, col)
-            self.main(row + 1, col)
-            self.main(row - 1, col)
-            self.main(row, col - 1)
-            self.main(row, col + 1)
+            self.main(row, col + 1, "R")
+            self.main(row + 1, col, "D")
+            self.main(row - 1, col, "U")
+            self.main(row, col - 1, "L")
             self.unmark(row, col)
+        self.dir_tracer.pop()
 
     def print_solution(self):
         [print("".join(m)) for m in self.matrix]
@@ -49,13 +59,6 @@ class Solve:
         self.matrix[row][col] = "_"
 
 
-m = [
-    [empty, empty, empty, wall, empty, empty, empty, ],
-    [wall, wall, empty, wall, empty, wall, empty],
-    [empty for _ in range(7)],
-    [empty, *[wall for _ in range(5)], empty],
-    [*[empty for _ in range(6)], "e"],
-
-]
-s = Solve(m)
-s.main()
+row = int(input())
+col = int(input())
+Solve(row, col).main()
